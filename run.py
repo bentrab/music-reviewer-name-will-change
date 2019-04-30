@@ -43,11 +43,26 @@ def basic_response():
 
 # This route involves some LOGIN stuff, not implemented yet	
 #@app.route('/login', methods = ['GET', 'POST'])
-def login():
-   if request.method == 'POST':
-      session['username'] = request.form['username']
-      return redirect(url_for('index'))
-   #return render_template('login.html', )
+ddef login():
+    if 'user' in session:
+        return redirect(url_for('dashboard'))
+
+    message = None
+
+    if request.method == "POST":
+        usern = request.form.get("username")
+        passw = request.form.get("password").encode('utf-8')
+        result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
+
+        if result is not None:
+            print(result['password'])
+            if bcrypt.check_password_hash(result['password'], passw) is True:
+                session['user'] = usern
+                return redirect(url_for('dashboard'))
+
+        message = "Username or password is incorrect."
+    return render_template("login.html", message=message)
+   
 
 # route for account registartion
 @app.route("/register", methods=["GET", "POST"])
@@ -63,7 +78,7 @@ def register():
             passw = request.form.get("password")
             passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
 
-            result = db.execute("INSERT INTO accounts (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
+            result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
             db.commit()
 
             if result.rowcount > 0:
