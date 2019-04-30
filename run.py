@@ -1,4 +1,7 @@
+import os
+
 import configparser
+from flask_bcrypt import Bcrypt
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 from forms import Last_FM_Form
 import mysql.connector
@@ -9,6 +12,7 @@ config.read('config.ini')
 
 # Set up application server.
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.secret_key = "adbi327fds"
 
 # Create a function for fetching data from the database.
@@ -44,6 +48,40 @@ def login():
       session['username'] = request.form['username']
       return redirect(url_for('index'))
    #return render_template('login.html', )
+
+# route for account registartion
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if 'user' in session:
+        return redirect(url_for('dashboard'))
+
+    message = None
+
+    if request.method == "POST":
+        try: 
+            usern = request.form.get("username")
+            passw = request.form.get("password")
+            passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
+
+            result = db.execute("INSERT INTO accounts (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
+            db.commit()
+
+            if result.rowcount > 0:
+                session['user'] = usern
+                return redirect(url_for('dashboard'))
+
+        except exc.IntegrityError:
+            message = "Username already exists."
+            db.execute("ROLLBACK")
+            db.commit()
+
+    return render_template("registration.html", message=message)
+
+#route for logout
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
    
 # Home page after login
 @app.route('/home/', methods=['GET', 'POST'])	
