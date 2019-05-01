@@ -120,7 +120,7 @@ Number,Year,Album,Artist,Genre,Subgenre
 119,1960,At Last!,Etta James,"Funk / Soul, Blues","Rhythm & Blues, Soul"
 120,1968,Sweetheart of the Rodeo,The Byrds,Rock,"Folk Rock, Country Rock"
 121,1969,Stand!,Sly & The Family Stone,Funk / Soul,"Funk, Psychedelic, Disco"
-122,1972,The Harder They Come,Various Artists,"Reggae, Pop, Folk, World, & Country, Stage & Screen","Reggae, Roots Reggae, Rocksteady, Contemporary, Soundtrack"
+122,1972,The Harder They Come,Various Artists,"Reggae, Pop, Folk, World, & Country, Stage & Screen","Reggae, Roots Reggae, Rocksteady, Contemporary, Soundtrack"
 123,1986,Raising Hell,Run D.M.C.,Hip Hop,None
 124,1967,Moby Grape,Moby Grape,Rock,"Folk Rock, Psychedelic Rock"
 125,1971,Pearl,Janis Joplin,"Rock, Blues",Blues Rock
@@ -130,7 +130,7 @@ Number,Year,Album,Artist,Genre,Subgenre
 129,1980,Remain in Light,Talking Heads,"Electronic, Rock","New Wave, Art Rock, Funk"
 130,1977,Marquee Moon,Television,Rock,"New Wave, Punk"
 131,1970,Paranoid,Black Sabbath,Rock,"Hard Rock, Heavy Metal"
-132,1977,Saturday Night Fever: The Original Movie Sound Track,Various Artists,"Electronic, Stage & Screen","Soundtrack, Disco"
+132,1977,Saturday Night Fever: The Original Movie Sound Track,Various Artists,"Electronic, Stage & Screen","Soundtrack, Disco"
 133,1973,"The Wild, the Innocent & the E Street Shuffle",Bruce Springsteen,Rock,None
 134,1994,Ready to Die,The Notorious B.I.G.,Hip Hop,Thug Rap
 135,1992,Slanted and Enchanted,Pavement,Rock,Alternative Rock
@@ -193,8 +193,8 @@ Number,Year,Album,Artist,Genre,Subgenre
 192,1969,The Gilded Palace of Sin,The Flying Burrito Brothers,"Rock, Folk, World, & Country",Country Rock
 193,1994,Dookie,Green Day,Rock,"Alternative Rock, Pop Punk, Punk"
 194,1972,Transformer,Lou Reed,Rock,Glam
-195,1966,"Blues Breakers With Eric Clapton (""The Beano Album"")",John Mayall & The Bluesbreakers,"Rock, Blues","Blues Rock, Electric Blues, Harmonica Blues"
-196,1998,"Nuggets: Original Artyfacts From the First Psychedelic Era, 1965-1968",Various Artists,Rock,"Garage Rock, Psychedelic Rock"
+195,1966,"Blues Breakers With Eric Clapton (""The Beano Album"")",John Mayall & The Bluesbreakers,"Rock, Blues","Blues Rock, Electric Blues, Harmonica Blues"
+196,1998,"Nuggets: Original Artyfacts From the First Psychedelic Era, 1965-1968",Various Artists,Rock,"Garage Rock, Psychedelic Rock"
 197,1983,Murmur,R.E.M.,Rock,Alternative Rock
 198,1967,The Best of Little Walter,Little Walter,Blues,Chicago Blues
 199,2001,Is This It,The Strokes,Rock,Indie Rock
@@ -357,7 +357,7 @@ Number,Year,Album,Artist,Genre,Subgenre
 356,1970,12 Songs,Randy Newman,"Rock, Pop","Pop Rock, Vocal"
 357,1967,Between the Buttons,The Rolling Stones,Rock,"Blues Rock, Psychedelic Rock, Pop Rock"
 358,1960,Sketches of Spain,Miles Davis,Jazz,Modal
-359,1972,Honky Château,Elton John,Rock,"Pop Rock, Classic Rock"
+359,1972,Honky Chateau,Elton John,Rock,"Pop Rock, Classic Rock"
 360,1979,Singles Going Steady,Buzzcocks,Rock,Punk
 361,2000,Stankonia,OutKast,"Hip Hop, Funk / Soul","Gangsta, P.Funk, Crunk, Conscious"
 362,1993,Siamese Dream,The Smashing Pumpkins,Rock,Alternative Rock
@@ -386,7 +386,7 @@ Number,Year,Album,Artist,Genre,Subgenre
 385,2001,"""Love and Theft""",Bob Dylan,Rock,"Folk Rock, Blues Rock"
 386,1974,Pretzel Logic,Steely Dan,"Jazz, Rock","Jazz-Rock, Pop Rock, Classic Rock"
 387,1993,Enter the Wu_Tang: 36 Chambers,Wu Tang Clan,Hip Hop,Gangsta
-388,1985,The Indestructible Beat of Soweto,Various Artists,"Funk / Soul, Folk, World, & Country",African
+388,1985,The Indestructible Beat of Soweto,Various Artists,"Funk / Soul, Folk, World, & Country",African
 389,1989,The End of the Innocence,Don Henley,Rock,Pop Rock
 390,2003,Elephant,The White Stripes,Rock,"Blues Rock, Garage Rock, Alternative Rock"
 391,1976,The Pretender,Jackson Browne,Rock,"Soft Rock, Pop Rock"
@@ -419,7 +419,7 @@ Number,Year,Album,Artist,Genre,Subgenre
 418,1973,Band on the Run,Paul McCartney & Wings,Rock,Pop Rock
 419,1994,Dummy,Portishead,Electronic,"Trip Hop, Downtempo"
 420,1957,"The ""Chirping"" Crickets",The Crickets,"Rock, Pop","Rockabilly, Rock & Roll"
-421,1990,"The Best of the Girl Groups, Volume 1",Various Artists,"Rock, Pop","Pop Rock, Vocal"
+421,1990,"The Best of the Girl Groups, Volume 1",Various Artists,"Rock, Pop","Pop Rock, Vocal"
 422,1963,Presenting the Fabulous Ronettes Featuring Veronica,The Ronettes,"Rock, Pop","Rock & Roll, Vocal"
 423,2001,Anthology,Diana Ross & The Supremes,"Electronic, Funk / Soul","Pop Rock, Soul, Disco"
 424,2002,The Rising,Bruce Springsteen,Rock,"Folk Rock, Classic Rock"
@@ -445,57 +445,3 @@ Number,Year,Album,Artist,Genre,Subgenre
 444,1972,The World Is a Ghetto,War,Funk / Soul,Funk
 445,1976,Fly Like an Eagle,Steve Miller Band,Rock,Pop Rock
 446,1970,Back in the USA,MC5,Rock,"Garage Rock, Rock & Roll"
-447,1964,Getz / Gilberto,Stan Getz / Joao Gilberto featuring Antonio Carlos Jobim,Jazz,"Bossa Nova, Latin Jazz"
-448,1983,Synchronicity,The Police,"Rock, Pop","New Wave, Pop Rock"
-449,1978,Third/Sister Lovers,Big Star,Rock,"Lo-Fi, Indie Rock"
-450,1973,For Everyman,Jackson Browne,Rock,"Pop Rock, Classic Rock"
-451,2006,Back to Black,Amy Winehouse,"Funk / Soul, Pop",Soul
-452,1971,John Prine,John Prine,"Folk, World, & Country","Country, Folk"
-453,1987,Strictly Business,EPMD,Hip Hop,None
-454,1971,Love It to Death,Alice Cooper,Rock,Classic Rock
-455,1984,How Will the Wolf Survive?,Los Lobos,"Rock, Latin",Blues Rock
-456,1978,"Here, My Dear",Marvin Gaye,Funk / Soul,Soul
-457,2005,Z,My Morning Jacket,Rock,Alternative Rock
-458,1970,Tumbleweed Connection,Elton John,"Rock, Folk, World, & Country","Soft Rock, Country Rock"
-459,1968,The Drifters' Golden Hits,The Drifters,"Rock, Funk / Soul","Rhythm & Blues, Soul"
-460,1994,Live Through This,Hole,Rock,Grunge
-461,1979,Metal Box,Public Image Ltd.,"Electronic, Rock","Post-Punk, Dub, Avantgarde, Experimental"
-462,1987,Document,R.E.M.,Rock,None
-463,1981,Heaven Up Here,Echo and The Bunnymen,Rock,"New Wave, Indie Rock"
-464,1987,Hysteria,Def Leppard,Rock,"Hard Rock, Arena Rock"
-465,1999,69 Love Songs,The Magnetic Fields,"Electronic, Rock","Synth-pop, Indie Rock"
-466,2002,A Rush of Blood to the Head,Coldplay,Rock,"Alternative Rock, Pop Rock"
-467,1987,Tunnel of Love,Bruce Springsteen,Rock,None
-468,1965,The Paul Butterfield Blues Band,The Paul Butterfield Blues Band,"Rock, Blues","Blues Rock, Electric Blues, Chicago Blues, Modern Electric Blues, Harmonica Blues"
-469,1996,The Score,Fugees,Hip Hop,"Pop Rap, Conscious"
-470,1985,Radio,L.L. Cool J,Hip Hop,None
-471,1974,I Want to See the Bright Lights Tonight,Richard & Linda Thompson,Rock,"Classic Rock, Folk Rock"
-472,1987,Faith,George Michael,"Electronic, Rock, Funk / Soul, Blues, Pop","Downtempo, Soft Rock, Pop Rock, Synth-pop"
-473,1984,The Smiths,The Smiths,Rock,Indie Rock
-474,2001,Proxima estacion: Esperanza,Manu Chao,"Rock, Reggae, Latin","Folk Rock, Reggae, Reggae-Pop"
-475,1979,Armed Forces,Elvis Costello & The Attractions,Rock,"New Wave, Pop Rock"
-476,1997,Life After Death,The Notorious B.I.G.,Hip Hop,None
-477,1996,Down Every Road,Merle Haggard,"Folk, World, & Country",Country
-478,2002,All Time Greatest Hits,Loretta Lynn,"Folk, World, & Country",Country
-479,1971,Maggot Brain,Funkadelic,"Rock, Funk / Soul","P.Funk, Psychedelic Rock"
-480,1995,Only Built 4 Cuban Linx,Raekwon,Hip Hop,None
-481,2000,Voodoo,D'Angelo,"Hip Hop, Funk / Soul","Soul, Funk, Neo Soul"
-482,1986,Guitar Town,Steve Earle,"Rock, Folk, World, & Country","Country, Honky Tonk"
-483,1979,Entertainment!,Gang of Four,Rock,"Post-Punk, New Wave"
-484,1972,All the Young Dudes,Mott the Hoople,Rock,"Classic Rock, Glam"
-485,1994,Vitalogy,Pearl Jam,Rock,"Alternative Rock, Hard Rock"
-486,1975,That's the Way of the World,"Earth, Wind & Fire",Funk / Soul,"Soul, Funk, Disco"
-487,1983,She's So Unusual,Cyndi Lauper,"Electronic, Rock","Pop Rock, Synth-pop"
-488,1985,New Day Rising,Husker Du,Rock,"Alternative Rock, Hardcore, Punk"
-489,1976,Destroyer,KISS,Rock,Hard Rock
-490,1973,Tres hombres,ZZ Top,Rock,"Blues Rock, Classic Rock"
-491,1967,Born Under a Bad Sign,Albert King,"Funk / Soul, Blues","Electric Blues, Rhythm & Blues, Soul"
-492,1983,Touch,Eurythmics,"Electronic, Pop","New Wave, Synth-pop"
-493,2002,Yankee Hotel Foxtrot,Wilco,Rock,Alternative Rock
-494,2007,Oracular Spectacular,MGMT,"Electronic, Rock, Pop","Synth-pop, Indie Rock"
-495,1972,Give It Up,Bonnie Raitt,Rock,Blues Rock
-496,1969,Boz Scaggs,Boz Scaggs,Rock,Pop Rock
-497,2001,White Blood Cells,The White Stripes,Rock,"Indie Rock, Alternative Rock, Blues Rock, Garage Rock"
-498,1989,The Stone Roses,The Stone Roses,Rock,Indie Rock
-499,1971,Live in Cook County Jail,B.B. King,Blues,Electric Blues
-500,1998,Aquemini,OutKast,Hip Hop,"Reggae, Gangsta, Soul, Conscious"
