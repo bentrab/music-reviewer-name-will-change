@@ -42,7 +42,7 @@ def basic_response():
     return "It works!" #example
 
 # This route involves some LOGIN stuff, not implemented yet	
-#@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
         return redirect(url_for('dashboard'))
@@ -52,7 +52,9 @@ def login():
     if request.method == "POST":
         usern = request.form.get("username")
         passw = request.form.get("password").encode('utf-8')
-        result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
+        sql = "SELECT * FROM user WHERE username = {usern}"
+        result = sql_query(sql)
+        # result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
 
         if result is not None:
             print(result['password'])
@@ -64,7 +66,7 @@ def login():
     return render_template("login.html", message=message)
    
 
-# route for account registration
+# route for account registartion
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if 'user' in session:
@@ -78,8 +80,10 @@ def register():
             passw = request.form.get("password")
             passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
 
-            result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
-            db.commit()
+
+            sql = "INSERT INTO user (username, password) VALUES {usern},{passw}"
+            #result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
+            sql_execute(sql)
 
             if result.rowcount > 0:
                 session['user'] = usern
@@ -87,10 +91,10 @@ def register():
 
         except exc.IntegrityError:
             message = "Username already exists."
-            db.execute("ROLLBACK")
-            db.commit()
+            sql_execute("ROLLBACK")
 
     return render_template("registration.html", message=message)
+
 
 #route for logout
 @app.route("/logout")
