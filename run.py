@@ -45,7 +45,7 @@ def basic_response():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('home'))
 
     message = None
 
@@ -60,7 +60,7 @@ def login():
             print(result['password'])
             if bcrypt.check_password_hash(result['password'], passw) is True:
                 session['user'] = usern
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'))
 
         message = "Username or password is incorrect."
     return render_template("login.html", message=message)
@@ -70,7 +70,7 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if 'user' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('home'))
 
     message = None
 
@@ -87,7 +87,7 @@ def register():
 
             if result.rowcount > 0:
                 session['user'] = usern
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'))
 
         except exc.IntegrityError:
             message = "Username already exists."
