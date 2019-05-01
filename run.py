@@ -45,7 +45,7 @@ def basic_response():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-        return redirect(url_for('home'), usern=usern)
+        return redirect(url_for('home'))
 
     message = None
 
@@ -60,7 +60,7 @@ def login():
             print(result['password'])
             if bcrypt.check_password_hash(result['password'], passw) is True:
                 session['user'] = usern
-                return redirect(url_for('home'), usern=usern)
+                return redirect(url_for('home'))
 
         message = "Username or password is incorrect."
     return render_template("login.html", message=message)
@@ -70,7 +70,7 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if 'user' in session:
-        return redirect(url_for('home'), usern=usern)
+        return redirect(url_for('home'))
 
     message = None
 
@@ -87,7 +87,7 @@ def register():
 
             if result.rowcount > 0:
                 session['user'] = usern
-                return redirect(url_for('home'), usern=usern)
+                return redirect(url_for('home'))
 
         except exc.IntegrityError:
             message = "Username already exists."
@@ -108,7 +108,7 @@ def account():
 		sql_execute(sql)
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
-		return redirect(url_for('home'), usern=usern)
+		return redirect(url_for('home'))
 	template_data = {}
 	sql = "select from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
 	reviews = sql_query(sql)
@@ -123,12 +123,24 @@ def logout():
 
 # Home page after login
 #@app.route('/home/', methods=['GET', 'POST'])	
-@app.route('/home/<usern>', methods=['GET', 'POST'])
-def home(usern):
-	search_all = Search_All_Form(request.form)
-	if request.method == 'POST':
-		return search_all_results(search_all, username = username)
-	return render_template('home.html', usern = usern, form = search_all)
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+	usern = session['user']
+	if "edit-review" in request.form:
+		review_id = int(request.form["edit-review"])
+		return render_template('edit-review.html', review_id=review_id)
+	if "delete-review" in request.form:
+		review_id = int(request.form["delete-review"])
+		sql = "delete from review where id={review_id}".format(review_id=review_id)
+		sql_execute(sql)
+	if "home" in request.form:
+		#return render_template('home.html', usern=usern)
+		return redirect(url_for('review'), usern=usern)
+	template_data = {}
+	sql = "select from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
+	reviews = sql_query(sql)
+	template_data['reviews'] = reviews
+	return render_template('account.html', template_data=template_data)
 	
 # Home page after login
 #@app.route('/home/', methods=['GET', 'POST'])	
