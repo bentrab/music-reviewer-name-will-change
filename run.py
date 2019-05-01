@@ -95,6 +95,21 @@ def register():
 
     return render_template("registration.html", message=message)
 
+@app.route("/account")
+def account():
+	usern = session['user']
+	if "edit-review" in request.form:
+        review_id = int(request.form["edit-review"])
+        return render_template('edit-review.html', review_id=review_id)
+	if "delete-review" in request.form:
+        review_id = int(request.form["delete-review"])
+        sql = "delete from review where id={review_id}".format(review_id=review_id)
+        sql_execute(sql)
+    template_data = {}
+	sql = "select from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
+	reviews = sql_query(sql)
+	template_data['reviews'] = reviews
+	return render_template('account.html', template_data=template_data)
 
 #route for logout
 @app.route("/logout")

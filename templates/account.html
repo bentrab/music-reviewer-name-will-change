@@ -1,3 +1,19 @@
 <doctype html>
 
-<h1>hello</h1>
+<h1>Hello</h1>
+
+<form action="." method="post">
+        {% if template_data['reviews']|length == 0 %}
+        <p style="color: red;">No Reviews!</p>
+        {% else %}
+        <ul>
+            {% for review in template_data['reviews'] %}
+            <li>
+                {{ review[1] }}
+                <button name="edit-review" value="{{review[0]}}">Edit</button>
+				<button name="delete-review" value="{{review[0]}}">Delete</button>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        </form>
