@@ -43,7 +43,7 @@ def basic_response():
 
 # This route involves some LOGIN stuff, not implemented yet	
 #@app.route('/login', methods = ['GET', 'POST'])
-ddef login():
+def login():
     if 'user' in session:
         return redirect(url_for('dashboard'))
 
