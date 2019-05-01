@@ -45,7 +45,7 @@ def basic_response():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('home'), usern=usern)
 
     message = None
 
@@ -60,7 +60,7 @@ def login():
             print(result['password'])
             if bcrypt.check_password_hash(result['password'], passw) is True:
                 session['user'] = usern
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'), usern=usern)
 
         message = "Username or password is incorrect."
     return render_template("login.html", message=message)
@@ -70,7 +70,7 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if 'user' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('home'), usern=usern)
 
     message = None
 
@@ -87,7 +87,7 @@ def register():
 
             if result.rowcount > 0:
                 session['user'] = usern
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'), usern=usern)
 
         except exc.IntegrityError:
             message = "Username already exists."
@@ -95,7 +95,8 @@ def register():
 
     return render_template("registration.html", message=message)
 
-@app.route("/account")
+# route for user's account
+@app.route("/account", methods=['GET', 'POST'])
 def account():
 	usern = session['user']
 	if "edit-review" in request.form:
@@ -105,6 +106,9 @@ def account():
 		review_id = int(request.form["delete-review"])
 		sql = "delete from review where id={review_id}".format(review_id=review_id)
 		sql_execute(sql)
+	if "home" in request.form:
+		#return render_template('home.html', usern=usern)
+		return redirect(url_for('home'), usern=usern)
 	template_data = {}
 	sql = "select from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
 	reviews = sql_query(sql)
@@ -114,17 +118,26 @@ def account():
 #route for logout
 @app.route("/logout")
 def logout():
-    session.pop('user', None)
+    session.pop('user', session['user'])
     return redirect(url_for('login'))
-   
+
 # Home page after login
-@app.route('/home/', methods=['GET', 'POST'])	
-@app.route('/home/<username>', methods=['GET', 'POST'])
-def home(username = None):
+#@app.route('/home/', methods=['GET', 'POST'])	
+@app.route('/home/<usern>', methods=['GET', 'POST'])
+def home(usern):
 	search_all = Search_All_Form(request.form)
 	if request.method == 'POST':
 		return search_all_results(search_all, username = username)
-	return render_template('home.html', username = username, form = search_all)
+	return render_template('home.html', usern = usern, form = search_all)
+	
+# Home page after login
+#@app.route('/home/', methods=['GET', 'POST'])	
+#@app.route('/home/<username>', methods=['GET', 'POST'])
+#def home(username = None):
+#	search_all = Search_All_Form(request.form)
+#	if request.method == 'POST':
+#		return search_all_results(search_all, username = username)
+#	return render_template('home.html', username = username, form = search_all)
 
 # Gets search results (don't think route is needed)	
 # @app.route('/results')
