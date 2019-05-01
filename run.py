@@ -182,3 +182,24 @@ def template_response_with_data():
 
 if __name__ == '__main__':
     app.run(**config['app'])
+
+@app.route("/b/<string:isbn>", methods=["GET", "POST"])
+def review(album_id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == "POST":
+        comment = request.form.get("comment")
+        my_rating = request.form.get("rating")
+        sql = "INSERT INTO review (review_text, review_score) VALUES ({comment}, {my_rating})"
+        sql_execute(sql)
+
+    album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}"
+    review_sql = "SELECT * FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
+    rating_sql = "SELECT AVG(review_score) FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
+    album = sql_query(album_sql)
+    reviews = sql_query(review_sql)
+    rating = sql_query(rating_sql)
+
+
+    return render_template("review.html", book_info=album, reviews=reviews, rating=rating    
