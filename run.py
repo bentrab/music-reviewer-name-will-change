@@ -103,7 +103,7 @@ def account():
 	usern = session['user']
 	if "edit-review" in request.form:
 		review_id = int(request.form["edit-review"])
-		return render_template('edit-review.html', review_id=review_id)
+		return redirect(url_for('edit-review'), review_id=review_id)
 	if "delete-review" in request.form:
 		review_id = int(request.form["delete-review"])
 		sql = "delete * from review where review.review_id={review_id}".format(review_id=review_id)
