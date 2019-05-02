@@ -18,7 +18,7 @@ app.secret_key = "adbi327fds"
 def sql_query(sql):
     db = mysql.connector.connect(**config['mysql.connector'])
     cursor = db.cursor()
-    cursor.execute(*sql)
+    cursor.execute(sql)
     result = cursor.fetchall()
     cursor.close()
     db.close()
@@ -52,13 +52,14 @@ def login():
     if request.method == "POST":
         usern = request.form.get("username")
         passw = request.form.get("password")
-        sql = "SELECT * FROM user WHERE username = {usern}"
+        sql = "SELECT * FROM user WHERE username = '{usern}'".format(usern=usern)
         result = sql_query(sql)
+
         # result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
 
         if result is not None:
-            print(result['password'])
-            if result['password'] == passw:
+            #print(result['password'])
+            if result[0] == passw:
                 session['user'] = usern
                 return redirect(url_for('home'))
 
@@ -130,19 +131,23 @@ def home():
 		return redirect(url_for('login'))
 	
 	usern = session['user']
-	if "search" in request.form:
-		album = request.form['album']
-		sql = "select album.album_id from album where album.album_name = {album}".format(album=album)
-		album_id = sql_query(sql)
-		if not album_id:
-			flash('No results could be found for your search, please try again.')
-			return redirect(url_for('home'))
-		else:
-			return redirect(url_for('album'), album_id=album_id)
-	if "account" in request.form:
-		return redirect(url_for('account'))
+	if request.method == "POST":
+		if "search" in request.form:
+			album = request.form['album']
+			sql = "select album.album_id from album where album.album_name = {album}".format(album=album)
+			album_id = sql_query(sql)
+			if not album_id:
+				flash('No results could be found for your search, please try again.')
+				return redirect(url_for('home'))
+			else:
+				return redirect(url_for('album'), album_id=album_id)
+		if "account" in request.form:
+			return redirect(url_for('account'))
+		if "logout" in request.form:
+			return redirect(url_for('logout'))
 	return render_template('home.html')
 	
+
 @app.route('/album', methods=['GET', 'POST'])
 def album(album_id):
 	if 'user' not in session:
