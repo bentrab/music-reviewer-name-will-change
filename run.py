@@ -44,7 +44,7 @@ def basic_response():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-    #    session.pop('user', session['user'])
+        session.pop('user', session['user'])
         return redirect(url_for('home'))
 
     message = None
@@ -146,7 +146,8 @@ def home():
 		if "account" in request.form:
 			return redirect(url_for('account'))
 		if "logout" in request.form:
-			return redirect(url_for('logout'))
+			session.pop('user', session['user'])
+			return redirect(url_for('login'))
 	return render_template('home.html')
 	
 
