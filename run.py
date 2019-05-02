@@ -44,7 +44,7 @@ def basic_response():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-        session.pop('user', session['user'])
+    #    session.pop('user', session['user'])
         return redirect(url_for('home'))
 
     message = None
@@ -52,7 +52,7 @@ def login():
     if request.method == "POST":
         usern = request.form.get("username")
         passw = request.form.get("password")
-        sql = "SELECT * FROM user WHERE username = '{usern}'".format(usern=usern)
+        sql = "SELECT * FROM user WHERE user.username = '{usern}'".format(usern=usern)
         result = sql_query(sql)
 
         # result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
