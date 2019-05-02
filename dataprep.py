@@ -1,9 +1,4 @@
-"""
-Credit: the function executeScriptFromFile came from GitHub user
-awesome5team : https://github.com/awesome5team/General-Resources-Box/blob/master/sources/import-sql-file-to-mysql-via-python.py
-The original code is written for python 2. Therefore, it cannot be 
-directly imported into this file. A minor modification is done.
-"""
+
 
 import csv
 import configparser
@@ -31,30 +26,14 @@ def read_csv(csv_name):
 	except FileNotFoundError:
 		print('Error, file not found.')
 
-def executeScriptsFromFile(filename):
-	# Open and read the file as a single buffer
-	fd = open(filename, 'r')
-	sqlFile = fd.read()
-	fd.close()
+albumlist = read_csv('albumlist.csv')
 
-	# all SQL commands (split on ';')
-	sqlCommands = sqlFile.split(';')
-	
-	# Execute every command from the input file
-	for command in sqlCommands:
-		# This will skip and report errors
-		# For example, if the tables do not yet exist, this will skip over
-		# the DROP TABLE commands
-		try:
-			if command.rstrip() != '':
-				cursor.execute(command)
-		except ValueError as msg:
-			print("Command skipped: " + msg)
+datalist = []
+for i in range(len(albumlist['Number'])):
+	data = (albumlist['Artist'][i], albumlist['Album'][i], albumlist['Genre'][i],)
+	datalist.append(data)
 
-executeScriptsFromFile('./music_reviewer.sql')
+for data in datalist:
+	#print('Artist: ' + data[0] + ", Album: " + data[1] + ", Genre: " + data[2])
+	cursor.execute('''INSERT INTO album (album_artist, album_name, album_genre) VALUES(\'{artist}\', \'{album}\', \'{genre}\')'''.format(artist = data[0], album = data[1], genre = data[2]))
 db.commit()
-
-album_list = read_csv('albumlist.csv')
-
-
-
