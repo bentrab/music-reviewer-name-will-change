@@ -9,11 +9,14 @@
         <ul>
             {% for review in template_data['reviews'] %}
             <li>
-                {{ review[1] }}
+                {{ review[3] }}
+				{{ review[2] }}
+				{{ review[1] }}
                 <button name="edit-review" value="{{review[0]}}">Edit</button>
 				<button name="delete-review" value="{{review[0]}}">Delete</button>
             </li>
             {% endfor %}
         </ul>
         {% endif %}
+		<button name="home">Home</button>
         </form>

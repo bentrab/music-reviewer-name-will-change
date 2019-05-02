@@ -5,6 +5,24 @@
  
 <h2>Music Reviewer</h2>
 
+</br>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form action="." method="post">
+	<input type="text" class="form-control" id="album" name="album" placeholder="Enter album name here...">
+	<button type="submit" name="search">Search</button>
+	<button type="submit" name="account">Account</button>
+</form>
+
 <!-- <body>
         {% if username %}
 			<h1>Hello {{ username }}</h1>
@@ -17,7 +35,7 @@
 		
 </body> -->
 
-{% with messages = get_flashed_messages() %}
+<!-- {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
     {% for message in messages %}
@@ -36,3 +54,4 @@
   </dl>
   <p><input type=submit value=Search>
 </form>
+-->

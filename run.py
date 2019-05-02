@@ -104,13 +104,13 @@ def account():
 		return render_template('edit-review.html', review_id=review_id)
 	if "delete-review" in request.form:
 		review_id = int(request.form["delete-review"])
-		sql = "delete from review where id={review_id}".format(review_id=review_id)
+		sql = "delete * from review where review.review_id={review_id}".format(review_id=review_id)
 		sql_execute(sql)
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
 	template_data = {}
-	sql = "select from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
+	sql = "select * from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
 	reviews = sql_query(sql)
 	template_data['reviews'] = reviews
 	return render_template('account.html', template_data=template_data)
@@ -126,21 +126,38 @@ def logout():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
 	usern = session['user']
-	if "edit-review" in request.form:
-		review_id = int(request.form["edit-review"])
-		return render_template('edit-review.html', review_id=review_id)
-	if "delete-review" in request.form:
-		review_id = int(request.form["delete-review"])
-		sql = "delete from review where id={review_id}".format(review_id=review_id)
-		sql_execute(sql)
+	if "search" in request.form:
+		album = request.form['album']
+		sql = "select album.album_id from album where album.album_name = {album}".format(album=album)
+		album_id = sql_query(sql)
+		if not album_id:
+			flash('No results could be found for your search, please try again.')
+			return redirect(url_for('home'))
+		else:
+			return redirect(url_for('album'), album_id=album_id)
+	if "account" in request.form:
+		return redirect(url_for('account'))
+	return render_template('home.html')
+	
+@app.route('/album', methods=['GET', 'POST'])
+def album(album_id):
+	usern = session['user']
+	if "create-review" in request.form:
+		return redirect(url_for('create-review'), album_id=album_id)
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
-		return redirect(url_for('review'), usern=usern)
+		return redirect(url_for('home'))
+	sqlname = "select album.album_name from album where album.album_id = {album_id}".format(album_id=album_id)
+	name = sql_query(sqlname)
+	sqlart = "select album.album_artist from album where album.album_id = {album_id}".format(album_id=album_id)
+	artist = sql_query(sqlart)
+	sqlgen = "select album.album_genre from album where album.album_id = {album_id}".format(album_id=album_id)
+	genre = sql_query(sqlgen)
 	template_data = {}
-	sql = "select from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
-	reviews = sql_query(sql)
+	sqlrev = "select * from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	reviews = sql_query(sqlrev)
 	template_data['reviews'] = reviews
-	return render_template('account.html', template_data=template_data)
+	return render_template('album.html', name=name, artist=artist, genre=genre, template_data=template_data)
 	
 # Home page after login
 #@app.route('/home/', methods=['GET', 'POST'])	
