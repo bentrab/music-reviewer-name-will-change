@@ -98,6 +98,8 @@ def register():
 # route for user's account
 @app.route("/account", methods=['GET', 'POST'])
 def account():
+	if 'user' not in session:
+        return redirect(url_for('login'))
 	usern = session['user']
 	if "edit-review" in request.form:
 		review_id = int(request.form["edit-review"])
@@ -125,6 +127,8 @@ def logout():
 #@app.route('/home/', methods=['GET', 'POST'])	
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+	if 'user' not in session:
+        return redirect(url_for('login'))
 	usern = session['user']
 	if "search" in request.form:
 		album = request.form['album']
@@ -141,6 +145,8 @@ def home():
 	
 @app.route('/album', methods=['GET', 'POST'])
 def album(album_id):
+	if 'user' not in session:
+        return redirect(url_for('login'))
 	usern = session['user']
 	if "create-review" in request.form:
 		return redirect(url_for('create-review'), album_id=album_id)
@@ -153,11 +159,12 @@ def album(album_id):
 	artist = sql_query(sqlart)
 	sqlgen = "select album.album_genre from album where album.album_id = {album_id}".format(album_id=album_id)
 	genre = sql_query(sqlgen)
+	sqlrat = "select avg(review.review_score) from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	template_data = {}
 	sqlrev = "select * from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
 	template_data['reviews'] = reviews
-	return render_template('album.html', name=name, artist=artist, genre=genre, template_data=template_data)
+	return render_template('album.html', name=name, artist=artist, genre=genre, rating=rating, template_data=template_data)
 	
 # Home page after login
 #@app.route('/home/', methods=['GET', 'POST'])	
@@ -200,7 +207,7 @@ def template_response_with_data():
 if __name__ == '__main__':
     app.run(**config['app'])
 
-@app.route("/b/<string:isbn>", methods=["GET", "POST"])
+@app.route("/create-review", methods=["GET", "POST"])
 def review(album_id):
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -210,6 +217,7 @@ def review(album_id):
         my_rating = request.form.get("rating")
         sql = "INSERT INTO review (review_text, review_score) VALUES ({comment}, {my_rating})"
         sql_execute(sql)
+		return redirect(url_for('home'))
 
     album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}"
     review_sql = "SELECT * FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
@@ -219,4 +227,4 @@ def review(album_id):
     rating = sql_query(rating_sql)
 
 
-    return render_template("review.html", book_info=album, reviews=reviews, rating=rating    
+    return render_template("review.html", book_info=album, reviews=reviews, rating=rating)    
