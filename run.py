@@ -3,7 +3,6 @@ import os
 import configparser
 from flask_bcrypt import Bcrypt
 from flask import Flask, render_template, request, flash, session, redirect, url_for
-from forms import Search_All_Form
 import mysql.connector
 
 # Read configuration from file.
@@ -99,7 +98,8 @@ def register():
 @app.route("/account", methods=['GET', 'POST'])
 def account():
 	if 'user' not in session:
-        return redirect(url_for('login'))
+		return redirect(url_for('login'))
+	
 	usern = session['user']
 	if "edit-review" in request.form:
 		review_id = int(request.form["edit-review"])
@@ -128,7 +128,8 @@ def logout():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
 	if 'user' not in session:
-        return redirect(url_for('login'))
+		return redirect(url_for('login'))
+	
 	usern = session['user']
 	if "search" in request.form:
 		album = request.form['album']
@@ -146,7 +147,8 @@ def home():
 @app.route('/album', methods=['GET', 'POST'])
 def album(album_id):
 	if 'user' not in session:
-        return redirect(url_for('login'))
+		return redirect(url_for('login'))
+	
 	usern = session['user']
 	if "create-review" in request.form:
 		return redirect(url_for('create-review'), album_id=album_id)
@@ -209,22 +211,21 @@ if __name__ == '__main__':
 
 @app.route("/create-review", methods=["GET", "POST"])
 def review(album_id):
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    if request.method == "POST":
-        comment = request.form.get("comment")
-        my_rating = request.form.get("rating")
-        sql = "INSERT INTO review (review_text, review_score) VALUES ({comment}, {my_rating})"
-        sql_execute(sql)
+	if 'user' not in session:
+		return redirect(url_for('login'))
+	if request.method == "POST":
+		comment = request.form.get("comment")
+		my_rating = request.form.get("rating")
+		sql = "INSERT INTO review (review_text, review_score) VALUES ({comment}, {my_rating})"
+		sql_execute(sql)
 		return redirect(url_for('home'))
-
-    album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}"
-    review_sql = "SELECT * FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
-    rating_sql = "SELECT AVG(review_score) FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
-    album = sql_query(album_sql)
-    reviews = sql_query(review_sql)
-    rating = sql_query(rating_sql)
-
-
-    return render_template("review.html", book_info=album, reviews=reviews, rating=rating)    
+	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}"
+	review_sql = "SELECT * FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
+	rating_sql = "SELECT AVG(review_score) FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
+	album = sql_query(album_sql)
+	reviews = sql_query(review_sql)
+	rating = sql_query(rating_sql)
+	
+	return render_template("review.html", book_info=album, reviews=reviews, rating=rating)  
+	
+	  
