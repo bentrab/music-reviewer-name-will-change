@@ -1,5 +1,5 @@
 import os
-
+import sys
 import configparser
 #from flask_bcrypt import Bcrypt
 from flask import Flask, render_template, request, flash, session, redirect, url_for
@@ -52,12 +52,16 @@ def login():
 	if request.method == "POST":
 		usern = request.form.get("username")
 		passw = request.form.get("password")
+		template_data = {}
 		sql = "SELECT user.password FROM user WHERE user.username = '{usern}'".format(usern=usern)
 		result = sql_query(sql)
-		
+		template_data['password'] = result
+		print(result, file=sys.stderr)
+		password = result[0]
+	
 		# result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
 		
-		if result == passw:
+		if password[0] == passw:
 			session['user'] = usern
 			return redirect(url_for('home'))
 		message = "Username or password is incorrect."
