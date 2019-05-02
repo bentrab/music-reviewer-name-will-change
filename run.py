@@ -37,9 +37,9 @@ def sql_execute(sql):
 # For this example you can select a handler function by
 # uncommenting one of the @app.route decorators.
 
-#@app.route('/')
+@app.route('/')
 def basic_response():
-    return "It works!" #example
+	return redirect(url_for('login'))
 
 # This route involves some LOGIN stuff, not implemented yet	
 @app.route('/login', methods = ['GET', 'POST'])
