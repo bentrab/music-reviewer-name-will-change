@@ -52,10 +52,8 @@ def login():
 	if request.method == "POST":
 		usern = request.form.get("username")
 		passw = request.form.get("password")
-		template_data = {}
 		sql = "SELECT user.password FROM user WHERE user.username = '{usern}'".format(usern=usern)
 		result = sql_query(sql)
-		template_data['password'] = result
 		print(result, file=sys.stderr)
 		password = result[0]
 	
@@ -112,10 +110,11 @@ def account():
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
-	sqlID = "select user.user_id from user where user.username = '{usern}'"
-	user_id = sql_query(sqlID)
+	sqlID = "select user.user_id from user where user.username = '{usern}'".format(usern=usern)
+	result = sql_query(sqlID)
+	user_id = result[0]
 	template_data = {}
-	sql = "select * from review, review_by where review_by.review_id=review.review_id and review_by.user_id={user_id}".format(usern=usern)
+	sql = "select * from review, review_by where review_by.review_id=review.review_id and review_by.user_id={user_id}".format(user_id=user_id[0])
 	reviews = sql_query(sql)
 	template_data['reviews'] = reviews
 	return render_template('account.html', template_data=template_data)
