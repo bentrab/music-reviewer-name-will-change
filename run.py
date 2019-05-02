@@ -43,25 +43,25 @@ def basic_response():
 # This route involves some LOGIN stuff, not implemented yet	
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-    if 'user' in session:
-        session.pop('user', session['user'])
-        return redirect(url_for('home'))
-
-    message = None
-
-    if request.method == "POST":
-        usern = request.form.get("username")
-        passw = request.form.get("password")
-        sql = "SELECT user.password FROM user WHERE user.username = '{usern}'".format(usern=usern)
-        result = sql_query(sql)
-
-        # result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
-
-        if result == passw:
+	if 'user' in session:
+		session.pop('user', session['user'])
+		return redirect(url_for('home'))
+		
+	message = None
+	
+	if request.method == "POST":
+		usern = request.form.get("username")
+		passw = request.form.get("password")
+		sql = "SELECT user.password FROM user WHERE user.username = '{usern}'".format(usern=usern)
+		result = sql_query(sql)
+		
+		# result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
+		
+		if result == passw:
 			session['user'] = usern
 			return redirect(url_for('home'))
-        message = "Username or password is incorrect."
-    return render_template("login.html", message=message)
+		message = "Username or password is incorrect."
+	return render_template("login.html", message=message)
    
 
 # route for account registartion
