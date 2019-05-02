@@ -68,32 +68,28 @@ def login():
 # route for account registartion
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    if 'user' in session:
-        return redirect(url_for('home'))
-
-    message = None
-
-    if request.method == "POST":
-        try: 
-            usern = request.form.get("username")
-            passw = request.form.get("password")
-            passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
-
-
-            sql = "INSERT INTO user (username, password) VALUES {usern},{passw}"
-            #result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
-            sql_execute(sql)
-
-            if result.rowcount > 0:
-                session['user'] = usern
-                return redirect(url_for('home'))
-
-        except exc.IntegrityError:
-            message = "Username already exists."
-            sql_execute("ROLLBACK")
-
-    return render_template("registration.html", message=message)
-
+	message = None
+	if 'user' in session:
+		return redirect(url_for('home'))
+	if request.method == "POST":
+		usern = request.form.get("username")
+		sql_check = "select * from user where user.username={usern}".format(usern=usern)
+		user_check = sql_query(sql_check)
+		if not user_check:
+			passw = request.form.get("password")
+			passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
+			sql = "INSERT INTO user (username, password) VALUES {usern},{passw}"
+			#result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
+			sql_execute(sql)
+			if result.rowcount > 0:
+				session['user'] = usern
+				return redirect(url_for('home'))
+		else:
+			flash('Username is already taken.')
+			return redirect(url_for('register'))
+	return render_template("registration.html", message=message)
+	
+	
 # route for user's account
 @app.route("/account", methods=['GET', 'POST'])
 def account():

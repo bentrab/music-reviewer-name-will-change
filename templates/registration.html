@@ -21,6 +21,15 @@
             <div class="card text-center">
                 <div class="card-header">Register</div>
                 <div class="card-body">
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							<ul class=flashes>
+							{% for message in messages %}
+								<li>{{ message }}</li>
+							{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
                     <form action="{{ url_for('register') }}" method="post">
                         <input class="form-control" name="username" type="text" placeholder="username" required maxlength="30">
                         <br>
