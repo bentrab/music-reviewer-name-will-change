@@ -111,8 +111,10 @@ def account():
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
+	sqlID = "select user.user_id from user where user.username = '{usern}'"
+	user_id = sql_query(sqlID)
 	template_data = {}
-	sql = "select * from review where review_by.review_id=review.review_id and review_by.username={usern}".format(usern=usern)
+	sql = "select * from review, review_by where review_by.review_id=review.review_id and review_by.user_id={user_id}".format(usern=usern)
 	reviews = sql_query(sql)
 	template_data['reviews'] = reviews
 	return render_template('account.html', template_data=template_data)
@@ -134,7 +136,7 @@ def home():
 	if request.method == "POST":
 		if "search" in request.form:
 			album = request.form['album']
-			sql = "select album.album_id from album where album.album_name = {album}".format(album=album)
+			sql = "select album.album_id from album where album.album_name = '{album}'".format(album=album)
 			album_id = sql_query(sql)
 			if not album_id:
 				flash('No results could be found for your search, please try again.')
