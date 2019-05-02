@@ -137,12 +137,13 @@ def home():
 		if "search" in request.form:
 			album = request.form['album']
 			sql = "select album.album_id from album where album.album_name = '{album}'".format(album=album)
-			album_id = sql_query(sql)
+			result = sql_query(sql)
+			album_id = result[0]
 			if not album_id:
 				flash('No results could be found for your search, please try again.')
 				return redirect(url_for('home'))
 			else:
-				return redirect(url_for('album'), album_id=album_id)
+				return redirect(url_for('album'), album_id=album_id[0])
 		if "account" in request.form:
 			return redirect(url_for('account'))
 		if "logout" in request.form:
@@ -163,17 +164,22 @@ def album(album_id):
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
 	sqlname = "select album.album_name from album where album.album_id = {album_id}".format(album_id=album_id)
-	name = sql_query(sqlname)
+	result_name = sql_query(sqlname)
+	name = result_name[0]
 	sqlart = "select album.album_artist from album where album.album_id = {album_id}".format(album_id=album_id)
-	artist = sql_query(sqlart)
+	result_artist = sql_query(sqlart)
+	artist = result_artist[0]
 	sqlgen = "select album.album_genre from album where album.album_id = {album_id}".format(album_id=album_id)
-	genre = sql_query(sqlgen)
+	result_genre = sql_query(sqlgen)
+	genre = result_genre[0]
 	sqlrat = "select avg(review.review_score) from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	result_rating = sql_query(sqlrat)
+	rating = result_rating[0]
 	template_data = {}
 	sqlrev = "select * from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
 	template_data['reviews'] = reviews
-	return render_template('album.html', name=name, artist=artist, genre=genre, rating=rating, template_data=template_data)
+	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
 	
 # Home page after login
 #@app.route('/home/', methods=['GET', 'POST'])	

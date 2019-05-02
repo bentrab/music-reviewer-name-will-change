@@ -4,7 +4,7 @@
 <h3>{{ artist }}</h3>
 <h3>{{ genre }}</h3>
 
-<form action="." method="post">
+<form action="{{ url_for('album') }}" method="post">
 	 {% if template_data['reviews']|length == 0 %}
         <p style="color: red;">No Reviews</p>
         {% else %}
