@@ -73,9 +73,11 @@ def register():
 		return redirect(url_for('home'))
 	if request.method == "POST":
 		usern = request.form.get("username")
-		sql_check = "select * from user where user.username={usern}".format(usern=usern)
-		user_check = sql_query(sql_check)
-		if not user_check:
+		#sql_check = "select * from user where user.username={usern}".format(usern=usern)
+		#user_check = sql_query(sql_check)
+		#if not user_check:
+		x = 1
+		if x:
 			passw = request.form.get("password")
 			passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
 			sql = "INSERT INTO user (username, password) VALUES {usern},{passw}"
