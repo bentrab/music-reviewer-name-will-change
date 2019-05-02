@@ -143,7 +143,8 @@ def home():
 		if "account" in request.form:
 			return redirect(url_for('account'))
 		if "logout" in request.form:
-			return redirect(url_for('logout'))
+			session.pop('user', session['user'])
+			return redirect(url_for('login'))
 	return render_template('home.html')
 	
 
