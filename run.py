@@ -1,7 +1,7 @@
 import os
 
 import configparser
-from flask_bcrypt import Bcrypt
+#from flask_bcrypt import Bcrypt
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 import mysql.connector
 
@@ -11,14 +11,14 @@ config.read('config.ini')
 
 # Set up application server.
 app = Flask(__name__)
-bcrypt = Bcrypt(app)
+#bcrypt = Bcrypt(app)
 app.secret_key = "adbi327fds"
 
 # Create a function for fetching data from the database.
 def sql_query(sql):
     db = mysql.connector.connect(**config['mysql.connector'])
     cursor = db.cursor()
-    cursor.execute(sql)
+    cursor.execute(*sql)
     result = cursor.fetchall()
     cursor.close()
     db.close()
@@ -28,7 +28,7 @@ def sql_query(sql):
 def sql_execute(sql):
     db = mysql.connector.connect(**config['mysql.connector'])
     cursor = db.cursor()
-    cursor.execute(sql)
+    cursor.execute(*sql)
     db.commit()
     cursor.close()
     db.close()
@@ -44,20 +44,21 @@ def basic_response():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
+        session.pop('user', session['user'])
         return redirect(url_for('home'))
 
     message = None
 
     if request.method == "POST":
         usern = request.form.get("username")
-        passw = request.form.get("password").encode('utf-8')
+        passw = request.form.get("password")
         sql = "SELECT * FROM user WHERE username = {usern}"
         result = sql_query(sql)
         # result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
 
         if result is not None:
             print(result['password'])
-            if bcrypt.check_password_hash(result['password'], passw) is True:
+            if result['password'] == passw:
                 session['user'] = usern
                 return redirect(url_for('home'))
 
@@ -79,13 +80,13 @@ def register():
 		x = 1
 		if x:
 			passw = request.form.get("password")
-			passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
-			sql = "INSERT INTO user (username, password) VALUES {usern},{passw}"
+			#passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
+			sql = ("INSERT INTO user (username, password) VALUES (%s,%s)", (usern, passw))
+            
 			#result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
 			sql_execute(sql)
-			if result.rowcount > 0:
-				session['user'] = usern
-				return redirect(url_for('home'))
+			session['user'] = usern
+			return redirect(url_for('home'))
 		else:
 			flash('Username is already taken.')
 			return redirect(url_for('register'))

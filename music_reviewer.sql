@@ -124,11 +124,11 @@ DROP TABLE IF EXISTS `review_by`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review_by` (
-  `username` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `review_id` int(11) NOT NULL,
-  KEY `username` (`user_id`),
+  KEY `user_id` (`user_id`),
   KEY `review_id` (`review_id`),
-  CONSTRAINT `review_by_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
+  CONSTRAINT `review_by_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `review_by_ibfk_2` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
