@@ -1,5 +1,6 @@
 import os
 import sys
+import datetime
 import configparser
 #from flask_bcrypt import Bcrypt
 from flask import Flask, render_template, request, flash, session, redirect, url_for
@@ -233,7 +234,8 @@ def review():
 			score = request.form['score']
 			comment = request.form['comment']
 			if score > 0 and score < 101:
-				sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment, score))
+				date = str(datetime.datetime.today()).split()[0]
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %d)",  (comment, score, date))
 				return redirect(url_for('album', album_id=album_id)
 			else:
 				flash('No results could be found for your search, please try again.')
