@@ -227,7 +227,7 @@ if __name__ == '__main__':
     app.run(**config['app'])
 
 @app.route("/createreview", methods=["GET", "POST"])
-def review():
+def createreview():
 	if 'user' not in session:
 		return redirect(url_for('login'))
 	album_id = session['album']
@@ -249,7 +249,7 @@ def review():
 	result_album = sql_query(album_sql)
 	album = result_album[0]
 	
-	return render_template("review.html", album=album[0]) 
+	return render_template("createreview.html", album=album[0]) 
 
 @app.route("/edit-review", methods=["GET", "POST"])
 def edit(review_id):
