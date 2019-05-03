@@ -16,15 +16,9 @@
 {% endwith %}
 
 <form action="{{ url_for('album') }}" method="post">
-	<ul>
         {% for review in template_data %}
-            <li>
-                {% for value in review %}
-					<p> {{ value }} </p>
-				{% endfor %}
-            </li>
+		<p> {{ review }} </p>
             {% endfor %}
-        </ul>
 </form>
 
 <!-- <form action="{{ url_for('album') }}" method="post">
