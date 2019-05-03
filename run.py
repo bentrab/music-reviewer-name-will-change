@@ -177,7 +177,7 @@ def album():
 	result_rating = sql_query(sqlrat)
 	rating = result_rating[0]
 	template_data = {}
-	sqlrev = "select * from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	sqlrev = "select * from review, review_album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
 	template_data['reviews'] = reviews
 	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
