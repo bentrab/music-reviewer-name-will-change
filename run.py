@@ -23,7 +23,7 @@ def sql_query(sql):
     db.close()
     return result
 
-
+# Function for executing INSERT 
 def sql_execute(sql):
     db = mysql.connector.connect(**config['mysql.connector'])
     cursor = db.cursor()
@@ -32,6 +32,7 @@ def sql_execute(sql):
     cursor.close()
     db.close()
 
+# Function for deleting data
 def sql_delete(sql):
 	db = mysql.connector.connect(**config['mysql.connector'])
 	cursor = db.cursor()
@@ -45,7 +46,6 @@ def sql_delete(sql):
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
 	if 'user' in session:
-		#session.pop('user', session['user'])
 		return redirect(url_for('home'))
 		
 	message = None
@@ -96,7 +96,6 @@ def account():
 	if "edit-review" in request.form:
 		review_id = int(request.form["edit-review"])
 		session['review'] = review_id
-		#session['review'] = review_id[0]
 		return redirect(url_for('edit'))
 	if "delete-review" in request.form:
 		review_id = int(request.form["delete-review"])
@@ -197,13 +196,7 @@ def createreview():
 				#date = datetime.datetime.now()
 				date = 11112
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %s, %s)", (comment, score, date))
-				#db = mysql.connector.connect(**config['mysql.connector'])
-				#cursor = db.cursor()
 				sql_execute(sql)
-				#review = cursor.lastrowid
-				#review = review_row[0]
-				#and review.review_score = {score} and review.review_date = {date}
-				#sql_rev = "SELECT * FROM review WHERE review.review_text = {comment}".format(comment=comment)
 				sql_rev = "SELECT MAX(review.review_id) FROM review"
 				reviews = sql_query(sql_rev)
 				review = reviews[0]
@@ -214,7 +207,6 @@ def createreview():
 				user_id = user[0]
 				sql_relation_rb = ("INSERT INTO review_by (review_id, user_id) VALUES (%s, %s)", (review[0], user_id[0]))
 				sql_execute(sql_relation_rb)
-				flash(review[0])
 				return redirect(url_for('album'))
 			else:
 				flash('Please enter an integer between 1 and 100')
