@@ -158,13 +158,15 @@ def album():
 	if 'user' not in session:
 		return redirect(url_for('login'))
 	
+	if not count:
+		album_id = request.args['album_id']
+		count = 0
 	usern = session['user']
 	if "create-review" in request.form:
 		return redirect(url_for('create-review', album_id2=album_id))
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
-	album_id = request.args['album_id']
 	sqlname = "select album.album_name from album where album.album_id = {album_id}".format(album_id=album_id)
 	result_name = sql_query(sqlname)
 	name = result_name[0]
