@@ -207,7 +207,7 @@ def createreview():
 	album_id = session['album']
 	if request.method == "POST":
 		if "submit" in request.form:
-			score = request.form['score']
+			score = int(request.form['score'])
 			comment = request.form['comment']
 			if score > 0 and score < 101:
 				date = str(datetime.datetime.today()).split()[0]
