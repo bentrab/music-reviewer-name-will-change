@@ -173,11 +173,11 @@ def album():
 	sqlgen = "select album.album_genre from album where album.album_id = {album_id}".format(album_id=album_id)
 	result_genre = sql_query(sqlgen)
 	genre = result_genre[0]
-	sqlrat = "select avg(review.review_score) from review where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	sqlrat = "select avg(review.review_score) from review, review_album, album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	result_rating = sql_query(sqlrat)
 	rating = result_rating[0]
 	template_data = {}
-	sqlrev = "select * from review, review_album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	sqlrev = "select * from review, review_album, album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
 	template_data['reviews'] = reviews
 	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
@@ -230,16 +230,26 @@ def review(album_id):
 	if request.method == "POST":
 		comment = request.form.get("comment")
 		my_rating = request.form.get("rating")
-		sql = "INSERT INTO review (review_text, review_score) VALUES ({comment}, {my_rating})"
+		sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment,my_rating))
 		sql_execute(sql)
 		return redirect(url_for('home'))
-	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}"
-	review_sql = "SELECT * FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
-	rating_sql = "SELECT AVG(review_score) FROM review WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id"
-	album = sql_query(album_sql)
-	reviews = sql_query(review_sql)
-	rating = sql_query(rating_sql)
+	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}".format(album_id=album_id)
+	result_album = sql_query(album_sql)
+	album = result_album[0]
+	review_sql = "SELECT * FROM review, review_album WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id".format(album_id=album_id)
+	result_review = sql_query(review_sql)
+	review = result_review[0]
+	rating_sql = "SELECT AVG(review_score) FROM review, review_album WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id".format(album_id=album_id)
+	result_rating = sql_query(rating_sql)
+	rating = result_rating[0]
 	
-	return render_template("review.html", book_info=album, reviews=reviews, rating=rating)  
+	return render_template("review.html", book_info=album[0], reviews=reviews[0], rating=rating[0]) 
+
+@app.route("/edit-review", methods=["GET", "POST"])
+def edit(review_id):
+	if 'user' not in session:
+		return redirect(url_for('login'))
+		
+	
 	
 	  
