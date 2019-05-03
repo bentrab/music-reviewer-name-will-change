@@ -249,9 +249,9 @@ def createreview():
 	result_album = sql_query(album_sql)
 	album = result_album[0]
 	
-	return render_template("createreview.html", album=album[0]) 
+	return render_template('createreview.html', album=album[0]) 
 
-@app.route("/edit-review", methods=["GET", "POST"])
+@app.route('/edit-review', methods=["GET", "POST"])
 def edit(review_id):
 	if 'user' not in session:
 		return redirect(url_for('login'))
@@ -275,7 +275,7 @@ def edit(review_id):
 		new_sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment,my_rating))
 		sql_execute(new_sql)
 	
-	return render_template("edit.html", )
+	return render_template('edit.html', )
 
 
 	
