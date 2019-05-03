@@ -161,7 +161,7 @@ def album():
 	album_id = request.args.get('album_id')
 	usern = session['user']
 	if "create-review" in request.form:
-		return redirect(url_for('create-review', album_id=album_id))
+		return redirect(url_for('createreview', album_id=album_id))
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
@@ -224,7 +224,7 @@ def template_response_with_data():
 if __name__ == '__main__':
     app.run(**config['app'])
 
-@app.route("/create-review", methods=["GET", "POST"])
+@app.route("/createreview", methods=["GET", "POST"])
 def review():
 	if 'user' not in session:
 		return redirect(url_for('login'))
@@ -239,7 +239,7 @@ def review():
 				return redirect(url_for('album', album_id=album_id))
 			else:
 				flash('No results could be found for your search, please try again.')
-				return redirect(url_for('create-review'))
+				return redirect(url_for('createreview'))
 		if "home" in request.form:
 			return redirect(url_for('home'))
 	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}".format(album_id=album_id)
