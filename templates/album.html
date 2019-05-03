@@ -4,6 +4,7 @@
 <h3>{{ artist }}</h3>
 <h3>{{ genre }}</h3>
 <h3>{{ rating }}</h3>
+<h3>{{ album_id }}</h3>
 
 <form action="{{ url_for('album') }}" method="post">
 	 {% if template_data['reviews']|length == 0 %}
