@@ -170,7 +170,10 @@ def album():
 	rating = result_rating[0]
 	sqlrev = "select * from review, review_album, album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
-	template_data = reviews
+	if not reviews:
+		flash('No reviews available')
+	else:
+		template_data = reviews
 	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
 
 # Create review page
