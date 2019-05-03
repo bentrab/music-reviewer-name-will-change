@@ -143,7 +143,7 @@ def home():
 				flash('No results could be found for your search, please try again.')
 				return redirect(url_for('home'))
 			else:
-				return redirect(url_for('album'), album_id=album_id[0])
+				return redirect(url_for('album', album_id=album_id[0]))
 		if "account" in request.form:
 			return redirect(url_for('account'))
 		if "logout" in request.form:
@@ -153,11 +153,12 @@ def home():
 	
 
 @app.route('/album', methods=['GET', 'POST'])
-def album(album_id):
+def album():
 	if 'user' not in session:
 		return redirect(url_for('login'))
 	
 	usern = session['user']
+	album_id = request.args['album_id']
 	if "create-review" in request.form:
 		return redirect(url_for('create-review'), album_id=album_id)
 	if "home" in request.form:
