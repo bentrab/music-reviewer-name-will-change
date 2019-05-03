@@ -249,7 +249,29 @@ def review(album_id):
 def edit(review_id):
 	if 'user' not in session:
 		return redirect(url_for('login'))
-		
+	prevcommentsql = "SELECT review.review_text FROM review WHERE review.review_id = {review_id}".format(review_id=review_id)
+	result_prevcomment = sql_query(prevcommentsql)
+	prevcomment=result_prevcomment[0]
+	prevratingsql = "SELECT review.review_score FROM review WHERE review.review_id = {review_id}".format(review_id=review_id)
+	result_prevrating = sql_query(prevratingsql)
+	prevrating = result_prevrating[0]
+	if request.method == "POST":
+		comment = request.form.get("comment")
+		my_rating = request.form.get("rating")
+		if comment == null:
+			commentsql = prevcomment[0]
+		if  my_rating == null:
+			my_rating = prevrating[0]
+		#delete old comment
+		delete_sql = "DELETE * FROM review WHERE review_id = {review_id}".format(review_id=review_id)
+		sql_execute(delete_sql)
+		#insert new comment
+		new_sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment,my_rating))
+		sql_execute(new_sql)
+	
+	return render_template("edit.html", )
+
+
 	
 	
 	  
