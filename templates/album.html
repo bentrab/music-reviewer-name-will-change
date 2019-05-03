@@ -5,7 +5,29 @@
 <h3>{{ genre }}</h3>
 <h3>{{ rating }}</h3>
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <form action="{{ url_for('album') }}" method="post">
+	<ul>
+        {% for review in template_data %}
+            <li>
+                {% for value in review %}
+					<p> {{ value }} </p>
+				{% endfor %}
+            </li>
+            {% endfor %}
+        </ul>
+</form>
+
+<!-- <form action="{{ url_for('album') }}" method="post">
 	 {% if template_data|length == 0 %}
         <p style="color: red;">No Reviews</p>
         {% else %}
@@ -21,4 +43,4 @@
         {% endif %}
 	<button name="createreview">Create Review</button>
 	<button name="home">Home</button>
-</form>
+</form> -->
