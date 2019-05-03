@@ -158,9 +158,7 @@ def album():
 	if 'user' not in session:
 		return redirect(url_for('login'))
 	
-	if not count:
-		album_id = request.args['album_id']
-		count = 0
+	album_id = request.args['album_id']
 	usern = session['user']
 	if "create-review" in request.form:
 		return redirect(url_for('create-review', album_id2=album_id))
