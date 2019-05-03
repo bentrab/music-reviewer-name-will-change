@@ -158,11 +158,10 @@ def album():
 	if 'user' not in session:
 		return redirect(url_for('login'))
 	
-	if not "create-review" in request.form:
-		album_id = request.args['album_id']
 	usern = session['user']
 	if "create-review" in request.form:
 		return redirect(url_for('create-review', album_id2=album_id))
+	album_id = request.args['album_id']
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
