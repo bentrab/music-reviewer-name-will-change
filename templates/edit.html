@@ -1,0 +1,25 @@
+<doctype html>
+<head>
+    <title>Music Reviewer</title>
+</head>
+
+</br>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form action="{{ url_for('edit-review') }}" method="post">
+	<input type="int" class="form-control" id="score" name="score" value="{{ score }}">
+	</br>
+	<input type="text" class="form-control" id="comment" name="comment" value="{{ comment }}">
+	</br>
+	<button type="submit" name="submit">Submit</button>
+	<button type="submit" name="home">Home</button>
+</form>

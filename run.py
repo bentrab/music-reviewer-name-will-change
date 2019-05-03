@@ -2,8 +2,11 @@ import os
 import sys
 import datetime
 import configparser
+<<<<<<< HEAD
 import time   
 #from flask_bcrypt import Bcrypt
+=======
+>>>>>>> 4b748404ca959ac378421a28ed18b7dfc6e4b44f
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 import mysql.connector
 
@@ -13,7 +16,6 @@ config.read('config.ini')
 
 # Set up application server.
 app = Flask(__name__)
-#bcrypt = Bcrypt(app)
 app.secret_key = "adbi327fds"
 
 # Create a function for fetching data from the database.
@@ -35,14 +37,12 @@ def sql_execute(sql):
     cursor.close()
     db.close()
 
-# For this example you can select a handler function by
-# uncommenting one of the @app.route decorators.
-
+# Goes to login on default
 @app.route('/')
 def basic_response():
 	return redirect(url_for('login'))
 
-# This route involves some LOGIN stuff, not implemented yet	
+# This route works for login
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
 	if 'user' in session:
@@ -58,8 +58,6 @@ def login():
 		result = sql_query(sql)
 		print(result, file=sys.stderr)
 		password = result[0]
-	
-		# result = db.execute("SELECT * FROM user WHERE username = :u", {"u": usern}).fetchone()
 		
 		if password[0] == passw:
 			session['user'] = usern
@@ -68,7 +66,7 @@ def login():
 	return render_template("login.html", message=message)
    
 
-# route for account registartion
+# route for account registration
 @app.route("/register", methods=["GET", "POST"])
 def register():
 	message = None
@@ -76,16 +74,11 @@ def register():
 		return redirect(url_for('home'))
 	if request.method == "POST":
 		usern = request.form.get("username")
-		#sql_check = "select * from user where user.username={usern}".format(usern=usern)
-		#user_check = sql_query(sql_check)
-		#if not user_check:
 		x = 1
 		if x:
 			passw = request.form.get("password")
-			#passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
 			sql = ("INSERT INTO user (username, password) VALUES (%s,%s)", (usern, passw))
             
-			#result = db.execute("INSERT INTO user (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
 			sql_execute(sql)
 			session['user'] = usern
 			return redirect(url_for('home'))
@@ -104,13 +97,14 @@ def account():
 	usern = session['user']
 	if "edit-review" in request.form:
 		review_id = int(request.form["edit-review"])
-		return redirect(url_for('edit-review'), review_id=review_id)
+		session['review'] = review_id
+		#session['review'] = review_id[0]
+		return redirect(url_for('edit-review'))
 	if "delete-review" in request.form:
 		review_id = int(request.form["delete-review"])
 		sql = "delete * from review where review.review_id={review_id}".format(review_id=review_id)
 		sql_execute(sql)
 	if "home" in request.form:
-		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
 	sqlID = "select user.user_id from user where user.username = '{usern}'".format(usern=usern)
 	result = sql_query(sqlID)
@@ -127,8 +121,7 @@ def logout():
     session.pop('user', session['user'])
     return redirect(url_for('login'))
 
-# Home page after login
-#@app.route('/home/', methods=['GET', 'POST'])	
+# Home page after login	
 @app.route('/home', methods=['GET', 'POST'])
 def home():
 	if 'user' not in session:
@@ -153,8 +146,9 @@ def home():
 			session.pop('user', session['user'])
 			return redirect(url_for('login'))
 	return render_template('home.html')
-	
 
+	
+# Page for album info and reviews
 @app.route('/album', methods=['GET', 'POST'])
 def album():
 	if 'user' not in session:
@@ -165,7 +159,6 @@ def album():
 	if "createreview" in request.form:
 		return redirect(url_for('createreview'))
 	if "home" in request.form:
-		#return render_template('home.html', usern=usern)
 		session.pop('album', session['album'])
 		return redirect(url_for('home'))
 	sqlname = "select album.album_name from album where album.album_id = {album_id}".format(album_id=album_id)
@@ -186,21 +179,7 @@ def album():
 	template_data['reviews'] = reviews
 	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
 
-
-# Given code from teacher's example, not used yet
-#@app.route('/', methods=['GET', 'POST'])
-def template_response_with_data():
-    print(request.form)
-    if "buy-book" in request.form:
-        book_id = int(request.form["buy-book"])
-        sql = "delete from book where id={book_id}".format(book_id=book_id)
-        sql_execute(sql)
-    template_data = {}
-    sql = "select id, title from book order by title"
-    books = sql_query(sql)
-    template_data['books'] = books
-    return render_template('home-w-data.html', template_data=template_data)
-
+# Create review page
 @app.route('/createreview', methods=["GET", "POST"])
 def createreview():
 	if 'user' not in session:
@@ -211,10 +190,15 @@ def createreview():
 			score = int(request.form['score'])
 			comment = request.form['comment']
 			if score > 0 and score < 101:
+<<<<<<< HEAD
 				#date = str(datetime.datetime.today()).split()[0]
 				date = time.strftime('%Y-%m-%d %H:%M:%S')
 				print(date, sys.stderr)
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, "1111-11-11 11:11:11"))
+=======
+				date = int(datetime.datetime.now())
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, date))
+>>>>>>> 4b748404ca959ac378421a28ed18b7dfc6e4b44f
 				sql_execute(sql)
 				return redirect(url_for('album'))
 			else:
@@ -229,31 +213,35 @@ def createreview():
 	
 	return render_template('createreview.html', album=album[0]) 
 
+# Edit Review Page
 @app.route('/edit-review', methods=["GET", "POST"])
 def edit(review_id):
 	if 'user' not in session:
 		return redirect(url_for('login'))
+	review_id = session['review']
 	prevcommentsql = "SELECT review.review_text FROM review WHERE review.review_id = {review_id}".format(review_id=review_id)
 	result_prevcomment = sql_query(prevcommentsql)
-	prevcomment=result_prevcomment[0]
+	prevcomment = result_prevcomment[0]
 	prevratingsql = "SELECT review.review_score FROM review WHERE review.review_id = {review_id}".format(review_id=review_id)
 	result_prevrating = sql_query(prevratingsql)
 	prevrating = result_prevrating[0]
 	if request.method == "POST":
-		comment = request.form.get("comment")
-		my_rating = request.form.get("rating")
-		if comment == null:
-			commentsql = prevcomment[0]
-		if  my_rating == null:
-			my_rating = prevrating[0]
-		#delete old comment
-		delete_sql = "DELETE * FROM review WHERE review_id = {review_id}".format(review_id=review_id)
-		sql_execute(delete_sql)
-		#insert new comment
-		new_sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment,my_rating))
-		sql_execute(new_sql)
+		if "submit" in request.form:
+			score = int(request.form['score'])
+			comment = request.form['comment']
+			if score > 0 and score < 101:
+				date = int(datetime.datetime.now())
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, date))
+				sql_execute(sql)
+				delete_sql = "DELETE * FROM review WHERE review_id = {review_id}".format(review_id=review_id)
+				sql_execute(delete_sql)
+				session.pop('review', session['review'])
+				return redirect(url_for('account'))
+		if "home" in request.form:
+			session.pop('review', session['review'])
+			return redirect(url_for('home'))
 	
-	return render_template('edit.html', )
+	return render_template('edit.html', comment=prevcomment[0], score=prevrating[0])
 	
 if __name__ == '__main__':
     app.run(**config['app'])
