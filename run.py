@@ -184,30 +184,7 @@ def album():
 	reviews = sql_query(sqlrev)
 	template_data['reviews'] = reviews
 	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
-	
-# Home page after login
-#@app.route('/home/', methods=['GET', 'POST'])	
-#@app.route('/home/<username>', methods=['GET', 'POST'])
-#def home(username = None):
-#	search_all = Search_All_Form(request.form)
-#	if request.method == 'POST':
-#		return search_all_results(search_all, username = username)
-#	return render_template('home.html', username = username, form = search_all)
 
-# Gets search results (don't think route is needed)	
-# @app.route('/results')
-def search_all_results(search_all, username):
-	results = []
-	search_string = search_all.data['search']
-	if search_all.data['search'] == '':
-		sql = "select artist_id, artist_name from artist order by artist_name"
-		results = sql_query(sql)
-	
-	if not results:
-		flash('No results could be found for your search, please try again.')
-		return redirect('/home/%s' % username)
-	else:
-		return render_template('search_all_results.html', results = results)
 
 # Given code from teacher's example, not used yet
 #@app.route('/', methods=['GET', 'POST'])
@@ -222,9 +199,6 @@ def template_response_with_data():
     books = sql_query(sql)
     template_data['books'] = books
     return render_template('home-w-data.html', template_data=template_data)
-
-if __name__ == '__main__':
-    app.run(**config['app'])
 
 @app.route('/createreview', methods=["GET", "POST"])
 def createreview():
@@ -276,6 +250,9 @@ def edit(review_id):
 		sql_execute(new_sql)
 	
 	return render_template('edit.html', )
+	
+if __name__ == '__main__':
+    app.run(**config['app'])
 
 
 	
