@@ -186,7 +186,7 @@ def createreview():
 			comment = request.form['comment']
 			if score > 0 and score < 101:
 				date = int(datetime.datetime.now())
-				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, date))
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)", (comment, score, date))
 				sql_execute(sql)
 				return redirect(url_for('album'))
 			else:
@@ -219,7 +219,7 @@ def edit(review_id):
 			comment = request.form['comment']
 			if score > 0 and score < 101:
 				date = int(datetime.datetime.now())
-				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, date))
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)", (comment, score, date))
 				sql_execute(sql)
 				delete_sql = "DELETE * FROM review WHERE review_id = {review_id}".format(review_id=review_id)
 				sql_execute(delete_sql)
