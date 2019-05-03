@@ -160,7 +160,7 @@ def album():
 	
 	album_id = request.args.get('album_id')
 	usern = session['user']
-	if "create-review" in request.form:
+	if "createreview" in request.form:
 		return redirect(url_for('createreview', album_id=album_id))
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
@@ -228,7 +228,7 @@ if __name__ == '__main__':
 def review():
 	if 'user' not in session:
 		return redirect(url_for('login'))
-	album_id = request.args['album_id']
+	album_id = request.args.get('album_id')
 	if request.method == "POST":
 		if "submit" in request.form:
 			score = request.form['score']
