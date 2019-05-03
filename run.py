@@ -172,9 +172,7 @@ def album():
 	reviews = sql_query(sqlrev)
 	if not reviews:
 		flash('No reviews available')
-	else:
-		template_data = reviews
-	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=template_data)
+	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=reviews)
 
 # Create review page
 @app.route('/createreview', methods=["GET", "POST"])
