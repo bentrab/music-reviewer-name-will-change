@@ -2,11 +2,6 @@ import os
 import sys
 import datetime
 import configparser
-<<<<<<< HEAD
-import time   
-#from flask_bcrypt import Bcrypt
-=======
->>>>>>> 4b748404ca959ac378421a28ed18b7dfc6e4b44f
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 import mysql.connector
 
