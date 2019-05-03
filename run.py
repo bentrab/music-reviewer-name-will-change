@@ -161,7 +161,7 @@ def album():
 	usern = session['user']
 	album_id = request.args['album_id']
 	if "create-review" in request.form:
-		return redirect(url_for('create-review', album_id=album_id))
+		return redirect(url_for('create-review', album_id2=album_id))
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
@@ -228,7 +228,7 @@ if __name__ == '__main__':
 def review():
 	if 'user' not in session:
 		return redirect(url_for('login'))
-	album_id = request.args['album_id']
+	album_id2 = request.args['album_id2']
 	if request.method == "POST":
 		if "submit" in request.form:
 			score = request.form['score']
@@ -236,13 +236,17 @@ def review():
 			if score > 0 and score < 101:
 				date = str(datetime.datetime.today()).split()[0]
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %d)",  (comment, score, date))
+<<<<<<< HEAD
 				return redirect(url_for('album', album_id=album_id))
+=======
+				return redirect(url_for('album', album_id2=album_id2))
+>>>>>>> 5fef3429103f3e0e3d3c3367ab491b249aec6e7d
 			else:
 				flash('No results could be found for your search, please try again.')
 				return redirect(url_for('create-review'))
 		if "home" in request.form:
 			return redirect(url_for('home'))
-	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}".format(album_id=album_id)
+	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}".format(album_id=album_id2)
 	result_album = sql_query(album_sql)
 	album = result_album[0]
 	
