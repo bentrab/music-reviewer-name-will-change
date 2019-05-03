@@ -2,6 +2,7 @@ import os
 import sys
 import datetime
 import configparser
+import time   
 #from flask_bcrypt import Bcrypt
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 import mysql.connector
@@ -210,8 +211,10 @@ def createreview():
 			score = int(request.form['score'])
 			comment = request.form['comment']
 			if score > 0 and score < 101:
-				date = str(datetime.datetime.today()).split()[0]
-				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, date))
+				#date = str(datetime.datetime.today()).split()[0]
+				date = time.strftime('%Y-%m-%d %H:%M:%S')
+				print(date, sys.stderr)
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)",  (comment, score, "1111-11-11 11:11:11"))
 				sql_execute(sql)
 				return redirect(url_for('album'))
 			else:
