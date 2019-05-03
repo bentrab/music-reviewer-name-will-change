@@ -168,7 +168,7 @@ def album():
 	sqlrat = "select avg(review.review_score) from review, review_album, album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
 	result_rating = sql_query(sqlrat)
 	rating = result_rating[0]
-	sqlrev = "select * from review, review_album, album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	sqlrev = "select * from review, review_album, album where review.review_id = review_album.review_id and review_album.album_id = album.album_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
 	if not reviews:
 		flash('No reviews available')
