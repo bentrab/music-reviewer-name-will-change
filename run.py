@@ -160,7 +160,7 @@ def album():
 	usern = session['user']
 	album_id = request.args['album_id']
 	if "create-review" in request.form:
-		return redirect(url_for('create-review'), album_id=album_id)
+		return redirect(url_for('create-review', album_id=album_id))
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
 		return redirect(url_for('home'))
@@ -224,26 +224,27 @@ if __name__ == '__main__':
     app.run(**config['app'])
 
 @app.route("/create-review", methods=["GET", "POST"])
-def review(album_id):
+def review():
 	if 'user' not in session:
 		return redirect(url_for('login'))
+	album_id = request.args['album_id']
 	if request.method == "POST":
-		comment = request.form.get("comment")
-		my_rating = request.form.get("rating")
-		sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment,my_rating))
-		sql_execute(sql)
-		return redirect(url_for('home'))
+		if "submit" in request.form:
+			score = request.form['score']
+			comment = request.form['comment']
+			if score > 0 and score < 101:
+				sql = ("INSERT INTO review (review_text, review_score) VALUES (%s, %d)",  (comment, score))
+				return redirect(url_for('album', album_id=album_id)
+			else:
+				flash('No results could be found for your search, please try again.')
+				return redirect(url_for('create-review'))
+		if "home" in request.form:
+			return redirect(url_for('home'))
 	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}".format(album_id=album_id)
 	result_album = sql_query(album_sql)
 	album = result_album[0]
-	review_sql = "SELECT * FROM review, review_album WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id".format(album_id=album_id)
-	result_review = sql_query(review_sql)
-	review = result_review[0]
-	rating_sql = "SELECT AVG(review_score) FROM review, review_album WHERE review_album.album_id = {album_id} AND review_album.review_id = review.review_id".format(album_id=album_id)
-	result_rating = sql_query(rating_sql)
-	rating = result_rating[0]
 	
-	return render_template("review.html", book_info=album[0], reviews=reviews[0], rating=rating[0]) 
+	return render_template("review.html", album=album[0]) 
 
 @app.route("/edit-review", methods=["GET", "POST"])
 def edit(review_id):
