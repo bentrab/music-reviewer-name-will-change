@@ -226,7 +226,7 @@ def template_response_with_data():
 if __name__ == '__main__':
     app.run(**config['app'])
 
-@app.route("/createreview", methods=["GET", "POST"])
+@app.route('/createreview', methods=["GET", "POST"])
 def createreview():
 	if 'user' not in session:
 		return redirect(url_for('login'))
