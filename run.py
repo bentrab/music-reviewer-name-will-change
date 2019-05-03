@@ -185,15 +185,11 @@ def createreview():
 			score = int(request.form['score'])
 			comment = str(request.form['comment'])
 			if score > 0 and score < 101:
-<<<<<<< HEAD
 				date = 11111111
-=======
-				date = int(datetime.datetime.now())
 				print(date)
 				print(score)
 				print(comment)
->>>>>>> 8e4124a4376e3b083012b5c6aad9556c3d8d700c
-				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)", (comment, score, date))
+				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %s, %s)", (comment, score, date))
 				sql_execute(sql)
 				return redirect(url_for('album'))
 			else:
