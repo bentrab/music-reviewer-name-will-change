@@ -183,7 +183,7 @@ def createreview():
 	if request.method == "POST":
 		if "submit" in request.form:
 			score = int(request.form['score'])
-			comment = request.form['comment']
+			comment = str(request.form['comment'])
 			if score > 0 and score < 101:
 				date = int(datetime.datetime.now())
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %s)", (comment, score, date))
