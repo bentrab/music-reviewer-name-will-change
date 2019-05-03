@@ -210,11 +210,11 @@ def createreview():
 			score = int(request.form['score'])
 			comment = request.form['comment']
 			if score > 0 and score < 101:
-				date = str(datetime.datetime.today()).split()[0]
+				date = datetime.datetime.now()
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %d)",  (comment, score, date))
 				return redirect(url_for('album'))
 			else:
-				flash('No results could be found for your search, please try again.')
+				flash('Please enter an integer between 1 and 100')
 				return redirect(url_for('createreview'))
 		if "home" in request.form:
 			session.pop('album', session['album'])
