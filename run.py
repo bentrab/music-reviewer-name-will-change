@@ -144,7 +144,8 @@ def home():
 				flash('No results could be found for your search, please try again.')
 				return redirect(url_for('home'))
 			else:
-				return redirect(url_for('album', album_id=album_id[0]))
+				session['album'] = album_id[0]
+				return redirect(url_for('album'))
 		if "account" in request.form:
 			return redirect(url_for('account'))
 		if "logout" in request.form:
@@ -158,12 +159,13 @@ def album():
 	if 'user' not in session:
 		return redirect(url_for('login'))
 	
-	album_id = request.args.get('album_id')
+	album_id = session['album']
 	usern = session['user']
 	if "createreview" in request.form:
-		return redirect(url_for('createreview', album_id=album_id))
+		return redirect(url_for('createreview'))
 	if "home" in request.form:
 		#return render_template('home.html', usern=usern)
+		session.pop('album', session['album'])
 		return redirect(url_for('home'))
 	sqlname = "select album.album_name from album where album.album_id = {album_id}".format(album_id=album_id)
 	result_name = sql_query(sqlname)
@@ -228,7 +230,7 @@ if __name__ == '__main__':
 def review():
 	if 'user' not in session:
 		return redirect(url_for('login'))
-	album_id = request.args.get('album_id')
+	album_id = session['album']
 	if request.method == "POST":
 		if "submit" in request.form:
 			score = request.form['score']
@@ -236,11 +238,12 @@ def review():
 			if score > 0 and score < 101:
 				date = str(datetime.datetime.today()).split()[0]
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %d, %d)",  (comment, score, date))
-				return redirect(url_for('album', album_id=album_id))
+				return redirect(url_for('album'))
 			else:
 				flash('No results could be found for your search, please try again.')
 				return redirect(url_for('createreview'))
 		if "home" in request.form:
+			session.pop('album', session['album'])
 			return redirect(url_for('home'))
 	album_sql = "SELECT * FROM album WHERE album.album_id = {album_id}".format(album_id=album_id)
 	result_album = sql_query(album_sql)
