@@ -1,9 +1,9 @@
 <doctype html>
 
-<h2>{{ name }}</h2>
-<h3>{{ artist }}</h3>
-<h3>{{ genre }}</h3>
-<h3>{{ rating }}</h3>
+<h2>Album: {{ name }}</h2>
+<h3>Artist: {{ artist }}</h3>
+<h3>Genre: {{ genre }}</h3>
+<h3>Rating: {{ rating }}</h3>
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -15,13 +15,13 @@
   {% endif %}
 {% endwith %}
 
-<form action="{{ url_for('album') }}" method="post">
+<!-- <form action="{{ url_for('album') }}" method="post">
         {% for review in template_data %}
 		<p> {{ review }} </p>
             {% endfor %}
-</form>
+</form> -->
 
-<!-- <form action="{{ url_for('album') }}" method="post">
+<form action="{{ url_for('album') }}" method="post">
 	 {% if template_data|length == 0 %}
         <p style="color: red;">No Reviews</p>
         {% else %}
@@ -37,4 +37,4 @@
         {% endif %}
 	<button name="createreview">Create Review</button>
 	<button name="home">Home</button>
-</form> -->
+</form>

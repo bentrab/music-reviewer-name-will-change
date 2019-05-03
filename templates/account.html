@@ -1,7 +1,7 @@
 <doctype html>
 <title>Music Reviewer</title>
 
-<h1>Hello</h1>
+<h1>Hello {{ name }}</h1>
 
 <form action="{{ url_for('account') }}" method="post">
         {% if template_data['reviews']|length == 0 %}

@@ -2,6 +2,8 @@
 <head>
     <title>Music Reviewer</title>
 </head>
+ 
+<h2>Edit Your Review for {{ album }}</h2>
 
 </br>
 
@@ -9,17 +11,21 @@
   {% if messages %}
     <ul class=flashes>
     {% for message in messages %}
-      <li>{{ message }}</li>
+      <h3>{{ message }}</h3>
     {% endfor %}
     </ul>
   {% endif %}
 {% endwith %}
 
-<form action="{{ url_for('edit-review') }}" method="post">
-	<input type="int" class="form-control" id="score" name="score" value="{{ score }}">
+<form action="{{ url_for('edit') }}" method="post">
+	Score (1 - 100):
 	</br>
-	<input type="text" class="form-control" id="comment" name="comment" value="{{ comment }}">
+	<textarea rows="1" cols="3" name="score" id="score">{{ prevscore }}</textarea>
 	</br>
-	<button type="submit" name="submit">Submit</button>
-	<button type="submit" name="home">Home</button>
+	Comment (optional):
+	</br>
+	<textarea rows="5" cols="80" name="comment" id="comment" placeholder="Enter review here...">{{ prevcomment }}</textarea>
+	</br>
+	<button type="submit" name="submit">Submit Changes</button>
+	<button type="submit" name="cancel">Cancel</button>
 </form>

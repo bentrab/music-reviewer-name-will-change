@@ -11,16 +11,20 @@
   {% if messages %}
     <ul class=flashes>
     {% for message in messages %}
-      <li>{{ message }}</li>
+      <h3>{{ message }}</h3>
     {% endfor %}
     </ul>
   {% endif %}
 {% endwith %}
 
 <form action="{{ url_for('createreview') }}" method="post">
-	<input type="int" class="form-control" id="score" name="score" placeholder="Enter score (1 - 100) here...">
+	Score (1 - 100):
 	</br>
-	<input type="text" class="form-control" id="comment" name="comment" placeholder="Enter review here...">
+	<textarea rows="1" cols="3" name="score" id="score"></textarea>
+	</br>
+	Comment (optional):
+	</br>
+	<textarea rows="5" cols="80" name="comment" id="comment" placeholder="Enter review here..."></textarea>
 	</br>
 	<button type="submit" name="submit">Submit</button>
 	<button type="submit" name="home">Home</button>
