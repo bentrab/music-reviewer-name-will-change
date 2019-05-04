@@ -111,7 +111,8 @@ def account():
 	result = sql_query(sqlID)
 	user_id = result[0]
 	template_data = {}
-	sql = "select * from review, review_by where review_by.review_id=review.review_id and review_by.user_id={user_id}".format(user_id=user_id[0])
+	#sql = "select * from review, review_by where review_by.review_id=review.review_id and review_by.user_id={user_id}".format(user_id=user_id[0])
+	sql = "select review.review_text, review.review_score, review.review_date, album.album_name from review, review_by, album, review_album where review_by.review_id=review.review_id and review_album.review_id = review.review_id and review_album.album_id = album.album_id and review_by.user_id={user_id}".format(user_id=user_id[0])
 	reviews = sql_query(sql)
 	template_data['reviews'] = reviews
 	return render_template('account.html', template_data=template_data, name=usern)
@@ -193,8 +194,8 @@ def createreview():
 			score = int(request.form['score'])
 			comment = str(request.form['comment'])
 			if score > 0 and score < 101:
-				#date = datetime.datetime.now()
-				date = 11112
+				date = datetime.datetime.now()
+				#date = 11112
 				sql = ("INSERT INTO review (review_text, review_score, review_date) VALUES (%s, %s, %s)", (comment, score, date))
 				sql_execute(sql)
 				sql_rev = "SELECT MAX(review.review_id) FROM review"
@@ -240,8 +241,8 @@ def edit():
 			score = int(request.form['score'])
 			comment = request.form['comment']
 			if score > 0 and score < 101:
-				#date = datetime.datetime.now()
-				date = 11111111
+				date = datetime.datetime.now()
+				#date = 11111111
 				delete_sql = "DELETE FROM review WHERE review_id = {review_id}".format(review_id=review_id)
 				sql_delete(delete_sql)
 				delete_sql_ra = "DELETE FROM review_album WHERE review_id = {review_id}".format(review_id=review_id)

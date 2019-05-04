@@ -2,6 +2,9 @@
 <title>Music Reviewer</title>
 
 <h1>Hello {{ name }}</h1>
+</br>
+
+<h3>All Reviews: </h3>
 
 <form action="{{ url_for('account') }}" method="post">
         {% if template_data['reviews']|length == 0 %}
@@ -10,9 +13,13 @@
         <ul>
             {% for review in template_data['reviews'] %}
             <li>
-                {{ review[3] }}
-				{{ review[2] }}
-				{{ review[1] }}
+                <h3>Album: {{ review[3] }}</h3>
+				Date: {{ review[2] }}
+				</br>
+				Score: {{ review[1] }}
+				</br>
+				Comment: {{ review[0] }}
+				</br>
                 <button name="edit-review" value="{{review[0]}}">Edit</button>
 				<button name="delete-review" value="{{review[0]}}">Delete</button>
             </li>
