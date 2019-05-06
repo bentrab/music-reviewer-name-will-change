@@ -13,12 +13,12 @@
         <ul>
             {% for review in template_data['reviews'] %}
             <li>
-                <h3>Album: {{ review[3] }}</h3>
-				Date: {{ review[2] }}
+                <h3>Album: {{ review[4] }}</h3>
+				Date: {{ review[3] }}
 				</br>
-				Score: {{ review[1] }}
+				Score: {{ review[2] }}
 				</br>
-				Comment: {{ review[0] }}
+				Comment: {{ review[1] }}
 				</br>
                 <button name="edit-review" value="{{review[0]}}">Edit</button>
 				<button name="delete-review" value="{{review[0]}}">Delete</button>

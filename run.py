@@ -112,7 +112,7 @@ def account():
 	user_id = result[0]
 	template_data = {}
 	#sql = "select * from review, review_by where review_by.review_id=review.review_id and review_by.user_id={user_id}".format(user_id=user_id[0])
-	sql = "select review.review_text, review.review_score, review.review_date, album.album_name from review, review_by, album, review_album where review_by.review_id=review.review_id and review_album.review_id = review.review_id and review_album.album_id = album.album_id and review_by.user_id={user_id}".format(user_id=user_id[0])
+	sql = "select review.review_id, review.review_text, review.review_score, review.review_date, album.album_name from review, review_by, album, review_album where review_by.review_id=review.review_id and review_album.review_id = review.review_id and review_album.album_id = album.album_id and review_by.user_id={user_id}".format(user_id=user_id[0])
 	reviews = sql_query(sql)
 	template_data['reviews'] = reviews
 	return render_template('account.html', template_data=template_data, name=usern)
