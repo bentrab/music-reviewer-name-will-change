@@ -72,8 +72,9 @@ def register():
 		return redirect(url_for('home'))
 	if request.method == "POST":
 		usern = request.form.get("username")
-		x = 1
-		if x:
+		sqlcheck = "select * from user where user.username = '{usern}'".format(usern=usern)
+		res_check = sql_query(sqlcheck)
+		if not res_check:
 			passw = request.form.get("password")
 			sql = ("INSERT INTO user (username, password) VALUES (%s,%s)", (usern, passw))
             
