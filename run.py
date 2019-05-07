@@ -170,14 +170,17 @@ def album():
 	sqlgen = "select album.album_genre from album where album.album_id = {album_id}".format(album_id=album_id)
 	result_genre = sql_query(sqlgen)
 	genre = result_genre[0]
-	sqlrat = "select avg(review.review_score) from review, review_album, album where review.review_id = review_album.review_id and album.album_id = {album_id}".format(album_id=album_id)
+	sqlrat = "select avg(review.review_score) from review, review_album, album where review.review_id = review_album.review_id and review_album.album_id = album.album_id and album.album_id = {album_id}".format(album_id=album_id)
 	result_rating = sql_query(sqlrat)
 	rating = result_rating[0]
-	sqlrev = "select * from review, review_album, album where review.review_id = review_album.review_id and review_album.album_id = album.album_id and album.album_id = {album_id}".format(album_id=album_id)
+	sqlnum = "select count(review.review_score) from review, review_album, album where review.review_id = review_album.review_id and review_album.album_id = album.album_id and album.album_id = {album_id}".format(album_id=album_id)
+	result_num = sql_query(sqlnum)
+	num = result_num[0]
+	sqlrev = "select * from review, review_album, album, review_by, user where review_by.user_id = user.user_id and review_by.review_id = review.review_id and review.review_id = review_album.review_id and review_album.album_id = album.album_id and album.album_id = {album_id}".format(album_id=album_id)
 	reviews = sql_query(sqlrev)
 	if not reviews:
 		flash('No reviews available')
-	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], template_data=reviews)
+	return render_template('album.html', name=name[0], artist=artist[0], genre=genre[0], rating=rating[0], num=num[0], template_data=reviews)
 
 # Create review page
 @app.route('/createreview', methods=["GET", "POST"])

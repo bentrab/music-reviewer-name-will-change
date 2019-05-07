@@ -6,6 +6,7 @@
 <h3>Artist: {{ artist }}</h3>
 <h3>Genre: {{ genre }}</h3>
 <h3>Rating: {{ rating }}</h3>
+<h3>Number of Reviews: {{ num }}</h3> 
 
 <h3>All Reviews: </h3>
 
@@ -25,7 +26,8 @@
         {% else %}
         <ul>
             {% for review in template_data %}
-                <h4>Date: {{ review[3] }}
+                <h3> Review by: {{ review[13] }}</h3>
+				<h4>Date: {{ review[3] }}
 				Score: {{ review[2] }}</h4>
 				Comment: {{ review[1] }}
 				</br>
